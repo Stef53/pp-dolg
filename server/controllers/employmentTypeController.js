@@ -8,7 +8,7 @@ class EmploymentTypeController {
       const employmentType = await EmploymentType.create({ name });
       return res.json({ employmentType });
     } catch (error) {
-      next(ApiError.internal("Ошибка при создании типа занятости"));
+      return next(ApiError.internal("Ошибка при создании типа занятости"));
     }
   }
 
@@ -17,7 +17,7 @@ class EmploymentTypeController {
       const employmentTypes = await EmploymentType.findAll();
       return res.json(employmentTypes);
     } catch (error) {
-      next(ApiError.internal("Ошибка при получении типов занятости"));
+      return next(ApiError.internal("Ошибка при получении типов занятости"));
     }
   }
 }

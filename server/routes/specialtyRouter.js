@@ -1,8 +1,9 @@
 const Router = require('express')
 const router = new Router()
 const specialtyController = require('../controllers/specialtyController')
+const checkRole = require('../middleware/checkRoleMiddleware')
 
-router.post('/', specialtyController.create)
+router.post('/', checkRole('ADMIN'), specialtyController.create)
 router.get('/', specialtyController.getAll)
 
 

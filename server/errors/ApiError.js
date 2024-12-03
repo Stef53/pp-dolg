@@ -1,5 +1,3 @@
-const { model } = require("../db");
-
 class ApiError extends Error{
   constructor(status, message) {
     super();

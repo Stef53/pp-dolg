@@ -10,26 +10,22 @@ const User = sequelize.define('user', {
 
 const StudentProfile = sequelize.define('studentProfile', {
   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-  surname: {type: DataTypes.STRING},
-  name: {type: DataTypes.STRING},
-  patronimyc: {type: DataTypes.STRING},
-  gender: {type: DataTypes.STRING, defaultValue: "MALE"},
+  surname: {type: DataTypes.STRING, defaultValue: ""},
+  name: {type: DataTypes.STRING, defaultValue: ""},
+  patronimyc: {type: DataTypes.STRING, defaultValue: ""},
+  gender: {type: DataTypes.STRING, defaultValue: ""},
   img: {type: DataTypes.STRING}
 })
 
 const Application = sequelize.define('application', {
   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-  coverLatter: {type: DataTypes.STRING},
+  coverLetter: {type: DataTypes.STRING},
+  resume: {type: DataTypes.STRING, allowNull: false}
 })
 
 const Status = sequelize.define('status', {
   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-  status: {type: DataTypes.STRING, allowNull: false, unique: true},
-})
-
-const Resume = sequelize.define('resume', {
-  id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-  resume: {type: DataTypes.STRING},
+  name: {type: DataTypes.STRING, allowNull: false, unique: true},
 })
 
 const Vacancy = sequelize.define('vacancy', {
@@ -48,67 +44,70 @@ const EmploymentType = sequelize.define('employmentType', {
   name: {type: DataTypes.STRING, allowNull: false, unique: true},
 })
 
-const StudentApplication = sequelize.define('studentApplication', {
+const District = sequelize.define('district', {
   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-})
-
-
-const ApplicationVacancy = sequelize.define('applicationVacancy', {
-  id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+  name: {type: DataTypes.STRING, allowNull: false, unique: true},
 })
 
 const EmploymentTypeSpecialty = sequelize.define('employmentTypeSpecialty', {
   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
 })
 
-User.hasOne(StudentProfile)
-StudentProfile.belongsTo(User)
+const EmploymentTypeDistrict = sequelize.define('employmentTypeDistrict', {
+  id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+})
 
-User.hasMany(Application)
-Application.belongsTo(User)
-
-StudentProfile.hasMany(StudentApplication)
-StudentApplication.belongsTo(StudentProfile)
-
-Application.hasOne(StudentApplication)
-StudentApplication.belongsTo(Application)
-
-Application.hasMany(ApplicationVacancy)
-ApplicationVacancy.belongsTo(Application)
-
-Application.hasOne(Status)
-Status.belongsTo(Application)
-
-Application.hasOne(Resume)
-Resume.belongsTo(Application)
-
-Application.hasOne(Vacancy)
-Vacancy.belongsTo(Application)
-
-Vacancy.hasOne(Application)
-Application.belongsTo(Vacancy)
-
-EmploymentType.hasMany(Vacancy)
-Vacancy.belongsTo(EmploymentType)
-
-Specialty.hasMany(Vacancy)
-Vacancy.belongsTo(Specialty)
-
-EmploymentType.belongsToMany(Specialty, {through: EmploymentTypeSpecialty})
-Specialty.belongsToMany(EmploymentType, {through: EmploymentTypeSpecialty})
+const DistrictSpecialty = sequelize.define('districtSpecialty', {
+  id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+})
 
 
-User.hasMany(Vacancy)
-Vacancy.belongsTo(User)
+User.hasOne(StudentProfile);
+StudentProfile.belongsTo(User);
+
+User.hasMany(Vacancy);
+Vacancy.belongsTo(User);
+
+User.hasMany(Application);
+Application.belongsTo(User);
+
+Application.hasOne(StudentProfile)
+StudentProfile.belongsTo(Application)
+
+Status.hasOne(Application);
+Application.belongsTo(Status);
+
+Vacancy.hasMany(Application);
+Application.belongsTo(Vacancy);
+
+EmploymentType.hasMany(Vacancy);
+Vacancy.belongsTo(EmploymentType);
+
+Specialty.hasMany(Vacancy);
+Vacancy.belongsTo(Specialty);
+
+District.hasMany(Vacancy)
+Vacancy.belongsTo(District)
+
+EmploymentType.belongsToMany(Specialty, { through: EmploymentTypeSpecialty });
+Specialty.belongsToMany(EmploymentType, { through: EmploymentTypeSpecialty });
+
+District.belongsToMany(Specialty, { through: DistrictSpecialty });
+Specialty.belongsToMany(District, { through: DistrictSpecialty });
+
+EmploymentType.belongsToMany(District, { through: EmploymentTypeDistrict });
+District.belongsToMany(EmploymentType, { through: EmploymentTypeDistrict });
 
 module.exports = {
   User,
   StudentProfile,
-  StudentApplication,
   Application,
-  ApplicationVacancy,
   Vacancy,
+  Status,
   EmploymentType,
   Specialty,
+  District,
   EmploymentTypeSpecialty,
+  DistrictSpecialty,
+  EmploymentTypeDistrict
 }
