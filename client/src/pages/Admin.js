@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { Button, Container } from 'react-bootstrap'
 import CreateVacancy from '../components/modals/сreateVacancy'
+import { observer } from 'mobx-react-lite'
 
 
-const Admin = () => {
+const Admin = observer(() => {
   const [vacancyVisible, setVacancyVicible] = useState(false)
 
   return (
@@ -12,6 +13,6 @@ const Admin = () => {
       <CreateVacancy show={vacancyVisible} onHide={() => setVacancyVicible(false)}/>
     </Container>
   )
-}
+})
 
 export default Admin

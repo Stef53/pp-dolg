@@ -19,15 +19,14 @@ class StudentProfileController {
       const { id } = req.params
       const userId = id
       const studentProfile = await StudentProfile.findOne({where:{id}})
-      const applications = await Application.findAll({ where: { userId } });
 
-      return res.json({studentProfile, applications})
+      return res.json(studentProfile)
     } catch (e) {
       next(ApiError.badRequest("adfasdasd"));
     }
   }
 
-  async change(req, res) {
+  async change(req, res, next) {
     const { id } = req.params;
     const { surname, name, patronimyc, age, gender, userId } = req.body;
 
@@ -45,7 +44,7 @@ class StudentProfileController {
             gender: gender || studentProfile.gender
         });
 
-        return res.json({ studentProfile });
+        return res.json(studentProfile);
     } catch (e) {
         next(ApiError.badRequest("Ошибка при обновлении профиля"));
     }

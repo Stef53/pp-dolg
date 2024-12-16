@@ -19,7 +19,7 @@ const StudentProfile = sequelize.define('studentProfile', {
 
 const Application = sequelize.define('application', {
   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-  coverLetter: {type: DataTypes.STRING},
+  coverLetter: {type: DataTypes.TEXT},
   resume: {type: DataTypes.STRING, allowNull: false}
 })
 
@@ -31,7 +31,7 @@ const Status = sequelize.define('status', {
 const Vacancy = sequelize.define('vacancy', {
   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
   title: {type: DataTypes.STRING, allowNull: false},
-  description: {type: DataTypes.STRING, allowNull: false},
+  description: {type: DataTypes.TEXT, allowNull: false},
 })
 
 const Specialty = sequelize.define('specialty', {
@@ -71,8 +71,8 @@ Vacancy.belongsTo(User);
 User.hasMany(Application);
 Application.belongsTo(User);
 
-Application.hasOne(StudentProfile)
-StudentProfile.belongsTo(Application)
+StudentProfile.hasMany(Application)
+Application.belongsTo(StudentProfile)
 
 Status.hasOne(Application);
 Application.belongsTo(Status);

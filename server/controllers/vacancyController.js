@@ -6,8 +6,12 @@ class VacancyController {
   async create(req, res, next) {
     try{
       const {title, description, employmentTypeId, specialtyId, districtId, userId} = req.body
+      if (!title || !description){
+        return next(ApiError.badRequest("Заголовок и описание вакансии не могут быть пустыми"))
+      }
+
       const vacancy = await Vacancy.create({title, description, employmentTypeId, specialtyId, districtId, userId})
-  
+
       return res.json(vacancy)
     } catch (e){
       return next(ApiError.badRequest(e.message))
@@ -74,8 +78,7 @@ class VacancyController {
         where:{id},
       }
     )
-    const applications = await Application.findAll({ where: { vacancyId } });
-    return res.json({vacancy, applications})
+    return res.json(vacancy)
   }
 
   async delete(req, res, next) {

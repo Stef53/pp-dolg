@@ -53,3 +53,12 @@ table {
 .hover-shadow:hover {
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5);
 }
+
+.truncated-text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

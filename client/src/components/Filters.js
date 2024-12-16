@@ -8,7 +8,7 @@ const Filters = observer(() => {
   return (
     <>
       <p>Тип занятости</p>
-      <ListGroup className='mt-2'>
+      <ListGroup className='mt-1'>
       <ListGroup.Item 
         style={{ cursor: 'pointer' }}
         active={'' === vacancy.selectedEmploymentType}
@@ -28,7 +28,7 @@ const Filters = observer(() => {
         )}
       </ListGroup>
       <p className='mt-2'>Специальность</p>
-      <ListGroup className='mt-2'>
+      <ListGroup className='mt-1'>
         <ListGroup.Item 
           style={{ cursor: 'pointer' }}
           active={'' === vacancy.selectedSpecialty}
@@ -48,7 +48,7 @@ const Filters = observer(() => {
         )}
       </ListGroup>
       <p className='mt-2'>Район</p>
-      <ListGroup className='mt-2'>
+      <ListGroup className='mt-1'>
         <ListGroup.Item 
           style={{ cursor: 'pointer' }}
           active={'' === vacancy.selectedDistrict}

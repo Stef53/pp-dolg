@@ -13,8 +13,19 @@ const generateJwt = (id, email, role) => {
 class UserController {
   async registration(req, res, next) {
     const {email, password, role} = req.body
-    if (!email || !password){
-      return next(ApiError.badRequest("Некорректный email или пароль"))
+
+    if (!email || !password) {
+      return next(ApiError.badRequest("Email и пароль не могут быть пустыми"));
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return next(ApiError.badRequest("Некорректный формат Email"));
+    }
+
+    const passwordRegex = /^[a-zA-Z0-9]{6,18}$/;
+    if (!passwordRegex.test(password)) {
+      return next(ApiError.badRequest("Пароль должен быть от 6 до 18 символов и содержать только латинские буквы и цифры"));
     }
     const candidate = await User.findOne({where: {email}})
     if (candidate){
@@ -30,6 +41,20 @@ class UserController {
   async login(req, res, next) {
     const {email, password} = req.body
     const user = await User.findOne({where: {email}})
+    if (!email || !password){
+      return next(ApiError.badRequest("Логин и пароль не могут быть пустыми"))
+    }
+    
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return next(ApiError.badRequest("Некорректный формат Email"));
+    }
+
+    const passwordRegex = /^[a-zA-Z0-9]{6,18}$/;
+    if (!passwordRegex.test(password)) {
+      return next(ApiError.badRequest("Пароль должен быть от 6 до 18 символов и содержать только латинские буквы и цифры"));
+    }
+
     if (!user) {
       return next(ApiError.internal('Пользователь с таким именем не найден'))
     }

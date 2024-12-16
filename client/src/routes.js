@@ -11,7 +11,7 @@ export const authRoutes = [
     Component: Admin
   },
   {
-    path: PROFILE_ROUTE,
+    path: PROFILE_ROUTE + '/:id',
     Component: Profile
   },
 ]
